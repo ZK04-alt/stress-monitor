@@ -1,0 +1,299 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0E1012">
+  <meta name="description" content="Scientific monitoring interface for frozen electricity and water stress models.">
+  <title>U.S. Infrastructure Stress Monitor</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#results">Skip to results</a>
+
+  <header class="site-header">
+    <div class="brand-lockup">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 42 42" role="img">
+          <path d="M7 31V11h7v20M18 31V17h7v14M29 31V7h7v24M4 34h34" />
+        </svg>
+      </div>
+      <div>
+        <span class="eyebrow">FROZEN MODEL OBSERVATORY</span>
+        <strong>U.S. Infrastructure Stress Monitor</strong>
+      </div>
+    </div>
+    <div class="header-status" aria-label="System status">
+      <span class="status-dot"></span>
+      <span>MODEL SET VERIFIED</span>
+      <span class="header-divider"></span>
+      <span>OBSERVED THROUGH {{ latest_year }}</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <span class="kicker">ELECTRICITY RELIABILITY × WATER SECURITY</span>
+        <h1 id="page-title">Project state infrastructure stress under a frozen, chronologically evaluated ML system.</h1>
+        <p>
+          Explore state-level baseline scenarios for outage duration, interruption frequency,
+          drought severity and drinking-water compliance. Future years are recursive projections,
+          not claims of known future conditions.
+        </p>
+      </div>
+      <div class="hero-meta">
+        <div><span>MODEL FAMILY</span><strong>4 linked pipelines</strong></div>
+        <div><span>SPATIAL UNIT</span><strong>50 states + D.C.</strong></div>
+        <div><span>SCENARIO LIMIT</span><strong>2050</strong></div>
+      </div>
+    </section>
+
+    <section class="pipeline" aria-label="Prediction pipeline">
+      <div class="pipeline-node">
+        <span>INPUT_01</span>
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29s9-8.3 9-17A9 9 0 1 0 7 12c0 8.7 9 17 9 17Z"/><circle cx="16" cy="12" r="3.5"/></svg>
+        <div><b>State</b><small>Geographic context</small></div>
+      </div>
+      <span class="pipeline-arrow" aria-hidden="true">→</span>
+      <div class="pipeline-node">
+        <span>INPUT_02</span>
+        <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="7" width="22" height="20" rx="1"/><path d="M10 4v6M22 4v6M5 13h22M10 18h4M18 18h4M10 22h4"/></svg>
+        <div><b>Future year</b><small>Recursive horizon</small></div>
+      </div>
+      <span class="pipeline-arrow" aria-hidden="true">→</span>
+      <div class="pipeline-node">
+        <span>DATA ENGINE</span>
+        <svg viewBox="0 0 32 32" aria-hidden="true"><ellipse cx="16" cy="7" rx="10" ry="4"/><path d="M6 7v8c0 2.2 4.5 4 10 4s10-1.8 10-4V7M6 15v8c0 2.2 4.5 4 10 4s10-1.8 10-4v-8"/></svg>
+        <div><b>Historical signals</b><small>Observed + out-of-sample</small></div>
+      </div>
+      <span class="pipeline-arrow" aria-hidden="true">→</span>
+      <div class="pipeline-node">
+        <span>MODEL ENGINE</span>
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="8" cy="16" r="3"/><circle cx="24" cy="8" r="3"/><circle cx="24" cy="24" r="3"/><path d="m11 15 10-6M11 17l10 6"/></svg>
+        <div><b>Four ML pipelines</b><small>Frozen deployment set</small></div>
+      </div>
+      <span class="pipeline-arrow" aria-hidden="true">→</span>
+      <div class="pipeline-node output-node">
+        <span>OUTPUT</span>
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 25a12 12 0 1 1 20 0M16 16l7-5M10 25h12"/></svg>
+        <div><b>Stress scores</b><small>Electricity + water</small></div>
+      </div>
+    </section>
+
+    <div class="workspace">
+      <aside class="control-rail" aria-label="Projection controls">
+        <section class="rail-section">
+          <div class="section-heading"><span></span><h2>Projection controls</h2></div>
+          <form id="projection-form">
+            <label for="state-select">
+              <span>STATE / TERRITORY</span>
+              <select id="state-select" name="state" required></select>
+            </label>
+            <label for="year-input">
+              <span>FUTURE YEAR</span>
+              <div class="year-control">
+                <input id="year-input" name="year" type="number" min="2025" max="2050" value="2030" required>
+                <small id="horizon-label">+6 years</small>
+              </div>
+            </label>
+            <button type="submit" id="run-button">
+              <span>RUN BASELINE PROJECTION</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5"/></svg>
+            </button>
+          </form>
+        </section>
+
+        <section class="rail-section provenance">
+          <div class="section-heading"><span></span><h2>Model provenance</h2></div>
+          <dl>
+            <div><dt>Training status</dt><dd id="training-status">—</dd></div>
+            <div><dt>Latest observation</dt><dd id="latest-observation">—</dd></div>
+            <div><dt>Evaluation policy</dt><dd>Chronological holdout</dd></div>
+            <div><dt>Projection mode</dt><dd>Recursive baseline</dd></div>
+          </dl>
+          <div class="verified-block">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
+            <div><strong>Frozen artifacts present</strong><small>Runtime reads the attached state signals and metadata.</small></div>
+          </div>
+        </section>
+
+        <section class="rail-section methodology">
+          <div class="section-heading"><span></span><h2>Interpretation</h2></div>
+          <p id="warning-text"></p>
+        </section>
+      </aside>
+
+      <div class="results" id="results" tabindex="-1">
+        <section class="results-header">
+          <div>
+            <span class="eyebrow">SCENARIO OUTPUT</span>
+            <h2><span id="result-state">California</span> · <span id="result-year">2030</span></h2>
+          </div>
+          <div class="scenario-stamp">
+            <span>BASELINE</span>
+            <strong id="scenario-horizon">06Y</strong>
+          </div>
+        </section>
+
+        <section class="stress-grid" aria-live="polite">
+          <article class="stress-card electricity-card">
+            <div class="card-topline"></div>
+            <header>
+              <div>
+                <span class="metric-label">ELECTRICITY STRESS</span>
+                <h3>Reliability pressure</h3>
+              </div>
+              <span class="band-badge" id="electricity-band">—</span>
+            </header>
+            <div class="score-row">
+              <strong id="electricity-score">—</strong><span>/ 100</span>
+              <div class="change" id="electricity-change">—</div>
+            </div>
+            <div class="range-row">
+              <span>Approximate range</span>
+              <b id="electricity-range">—</b>
+            </div>
+            <div class="stress-bar" aria-hidden="true"><span id="electricity-bar"></span></div>
+            <div class="submetrics">
+              <div>
+                <span>SAIDI</span>
+                <strong id="saidi-value">—</strong>
+                <small>min/customer</small>
+              </div>
+              <div>
+                <span>SAIFI</span>
+                <strong id="saifi-value">—</strong>
+                <small>interruptions/customer</small>
+              </div>
+              <div>
+                <span>NATIONAL RANK</span>
+                <strong id="electricity-rank">—</strong>
+                <small>highest stress first</small>
+              </div>
+            </div>
+          </article>
+
+          <article class="stress-card water-card">
+            <div class="card-topline"></div>
+            <header>
+              <div>
+                <span class="metric-label">WATER STRESS</span>
+                <h3>Availability + compliance</h3>
+              </div>
+              <span class="band-badge" id="water-band">—</span>
+            </header>
+            <div class="score-row">
+              <strong id="water-score">—</strong><span>/ 100</span>
+              <div class="change" id="water-change">—</div>
+            </div>
+            <div class="range-row">
+              <span>Approximate range</span>
+              <b id="water-range">—</b>
+            </div>
+            <div class="stress-bar" aria-hidden="true"><span id="water-bar"></span></div>
+            <div class="submetrics">
+              <div>
+                <span>DROUGHT</span>
+                <strong id="drought-value">—</strong>
+                <small>severity / 100</small>
+              </div>
+              <div>
+                <span>COMPLIANCE</span>
+                <strong id="compliance-value">—</strong>
+                <small>rate / 100k residents</small>
+              </div>
+              <div>
+                <span>NATIONAL RANK</span>
+                <strong id="water-rank">—</strong>
+                <small>highest stress first</small>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="analysis-panel">
+          <div class="panel-header">
+            <div>
+              <span class="metric-label">STATE SIGNAL TRACE</span>
+              <h3>Observed history and recursive scenario</h3>
+            </div>
+            <div class="legend">
+              <span><i class="legend-electricity"></i>Electricity</span>
+              <span><i class="legend-water"></i>Water</span>
+              <span><i class="legend-projected"></i>Projected</span>
+            </div>
+          </div>
+          <div class="chart-wrap">
+            <svg id="trend-chart" viewBox="0 0 920 360" role="img" aria-label="Electricity and water stress over time"></svg>
+            <div id="chart-tooltip" class="chart-tooltip" hidden></div>
+          </div>
+        </section>
+
+        <section class="breakdown-grid">
+          <article class="breakdown electricity-breakdown">
+            <header><span>01</span><h3>Electricity composition</h3></header>
+            <div class="composition-row">
+              <span>Duration stress</span><div><i id="duration-fill"></i></div><b id="duration-stress">—</b>
+            </div>
+            <div class="composition-row">
+              <span>Frequency stress</span><div><i id="frequency-fill"></i></div><b id="frequency-stress">—</b>
+            </div>
+          </article>
+          <article class="breakdown water-breakdown">
+            <header><span>02</span><h3>Water composition</h3></header>
+            <div class="composition-row">
+              <span>Drought stress</span><div><i id="drought-fill"></i></div><b id="drought-stress">—</b>
+            </div>
+            <div class="composition-row">
+              <span>Compliance stress</span><div><i id="compliance-fill"></i></div><b id="compliance-stress">—</b>
+            </div>
+          </article>
+        </section>
+
+        <section class="technical-section">
+          <div class="section-heading"><span></span><h2>Frozen model registry</h2></div>
+          <div class="model-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>TARGET</th>
+                  <th>DEPLOYED MODEL</th>
+                  <th>BACKTEST MAE</th>
+                  <th>BACKTEST RMSE</th>
+                  <th>R²</th>
+                </tr>
+              </thead>
+              <tbody id="model-table-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="technical-section input-section">
+          <div class="section-heading"><span></span><h2>Main historical inputs</h2></div>
+          <div class="input-columns">
+            <div><h3>Electricity</h3><ol id="electricity-inputs"></ol></div>
+            <div><h3>Water</h3><ol id="water-inputs"></ol></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span>U.S. INFRASTRUCTURE STRESS MONITOR</span>
+    <span>Frozen model interface · Research use</span>
+  </footer>
+
+  <div id="loading-overlay" class="loading-overlay" hidden>
+    <div class="loading-panel">
+      <span>MODEL ENGINE</span>
+      <strong>Calculating recursive state scenario</strong>
+      <div><i></i></div>
+    </div>
+  </div>
+
+  <script src="/static/app.js" defer></script>
+</body>
+</html>
